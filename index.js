@@ -1,16 +1,11 @@
 const express = require('express')
 const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
-const cors = require('cors');
 const { askGPT } = require('./openAI');
 const { MessagingResponse } = require('twilio').twiml;
 dotenv.config()
 
-const corsOption = {
-  origin: '*',
-};
 const app = express();
-app.use(cors(corsOption));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const port = process.env.port || 8080
@@ -28,7 +23,6 @@ app.post('/sms', async (req, res) => {
         );
       }
       res.type('text/xml').send(twiml.toString());
-      // res.send(gptResponse.content)
     } catch(error){
     res.send('ERROR: '+ error);
   }
